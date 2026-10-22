@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Предварительный калькулятор оценки социального благополучия семьи по методике Цифровой карты семьи Казахстана.">
+<title>Цифровая карта семьи — предварительный калькулятор</title>
+<style>
+:root{--ink:#172033;--muted:#5d687b;--line:#dfe5ed;--bg:#f4f7fb;--card:#fff;--accent:#175cd3;--soft:#eaf2ff;--warn:#fff4d6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+main{max-width:860px;margin:auto;padding:18px 14px 48px}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:-.03em;font-size:clamp(22px,4vw,32px);line-height:1.15}.sub{color:var(--muted);margin:8px 0 18px}.lang{display:flex;gap:6px}.lang button,.btn{border:1px solid var(--line);border-radius:12px;background:white;padding:10px 14px;font-weight:700;cursor:pointer}.lang button.active,.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.notice{background:var(--warn);border:1px solid #f0d991;padding:12px 14px;border-radius:14px;margin:14px 0 18px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 3px 12px #17203308}
+h2{font-size:19px;margin:0 0 12px}h3{font-size:15px;margin:16px 0 8px;color:#344054}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-size:14px;font-weight:650;margin:0 0 5px}input,select{width:100%;border:1px solid #cbd4e1;border-radius:10px;padding:11px 10px;background:#fff;color:var(--ink);font:inherit}small,.hint{font-size:12px;color:var(--muted);display:block;margin-top:4px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.result{display:none}.score{font-size:38px;font-weight:850;letter-spacing:-.04em}.pill{display:inline-block;background:var(--soft);color:#174ea6;padding:5px 10px;border-radius:999px;font-weight:800}.result h2{font-size:22px}.breakdown{display:grid;grid-template-columns:1fr auto;gap:7px;border-top:1px solid var(--line);padding-top:8px;margin-top:10px}.bad{color:#b42318}.footer{font-size:12px;color:var(--muted);margin-top:20px}.hidden{display:none!important}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.card{padding:14px}.score{font-size:32px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div class="brand" data-i="title">Цифровая карта семьи</div>
+    <div class="lang" aria-label="Language">
+      <button id="ru" class="active" type="button">Русский</button><button id="kz" type="button">Қазақша</button>
+    </div>
+  </div>
+  <p class="sub" data-i="subtitle">Предварительная самооценка социального благополучия семьи в Казахстане</p>
+  <div class="notice" data-i="warning">Важно: это независимый информационный калькулятор, а не государственная система. Результат ориентировочный, не подтверждает право на пособия и может отличаться от категории в Цифровой карте семьи. Не вводите ИИН, ФИО, адрес или другие идентифицирующие данные.</div>
+
+  <form id="calc">
+    <section class="card">
+      <h2 data-i="incomeTitle">1. Доходы и кредитные обязательства</h2>
+      <div class="grid">
+        <div class="field full"><label for="region" data-i="region">Регион проживания</label><select id="region" required>
+          <option value="almaty">Алматы қаласы / город Алматы</option><option value="astana">Астана қаласы / город Астана</option><option value="shymkent">Шымкент қаласы / город Шымкент</option>
+          <option value="abai">Абай облысы / область Абай</option><option value="akmola">Ақмола облысы / Акмолинская область</option><option value="aktobe">Ақтөбе облысы / Актюбинская область</option><option value="almaty_region">Алматы облысы / Алматинская область</option><option value="atyrau">Атырау облысы / Атырауская область</option><option value="east_kazakhstan">Шығыс Қазақстан облысы / Восточно-Казахстанская область</option><option value="west_kazakhstan">Батыс Қазақстан облысы / Западно-Казахстанская область</option><option value="zhambyl">Жамбыл облысы / Жамбылская область</option><option value="zhetysu">Жетісу облысы / область Жетісу</option><option value="karaganda">Қарағанды облысы / Карагандинская область</option><option value="kostanay">Қостанай облысы / Костанайская область</option><option value="kyzylorda">Қызылорда облысы / Кызылординская область</option><option value="mangystau">Маңғыстау облысы / Мангистауская область</option><option value="pavlodar">Павлодар облысы / Павлодарская область</option><option value="north_kazakhstan">Солтүстік Қазақстан облысы / Северо-Казахстанская область</option><option value="turkistan">Түркістан облысы / Туркестанская область</option><option value="ulytau">Ұлытау облысы / область Ұлытау</option>
+        </select><small data-i="regionHint">Региональные значения за III квартал 2026 года. Черта бедности рассчитана как минимальный порог 70% от ПМ; официальный показатель может быть выше.</small></div>
+        <div class="field"><label for="members" data-i="members">Число членов семьи</label><input id="members" type="number" min="1" max="30" value="4" required></div>
+        <div class="field"><label for="income" data-i="income">Общий месячный доход семьи (₸)</label><input id="income" type="number" min="0" step="1" value="0" required></div>
+        <div class="field"><label for="poverty" data-i="poverty">Минимальный порог черты бедности на человека (₸/мес.)</label><input id="poverty" type="number" min="0" step="1" value="" readonly required><small data-i="povertyHint">Автоматически: 70% регионального прожиточного минимума. Официальная черта бедности может быть выше с учётом медианного дохода.</small></div>
+        <div class="field"><label for="pm" data-i="pm">Прожиточный минимум на человека (₸/мес.)</label><input id="pm" type="number" min="1" step="1" value="" readonly required><small data-i="pmHint">Автоматически подставляется по региону за III квартал 2026 года.</small></div>
+        <div class="field"><label for="loans" data-i="loans">Есть текущие кредитные обязательства?</label><select id="loans"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Да</option></select></div>
+        <div class="field"><label for="arrears" data-i="arrears">Просрочка по кредитам более 90 дней и свыше 1 000 ₸</label><select id="arrears"><option value="0" data-i="none">Нет у совершеннолетних членов семьи</option><option value="1" data-i="one">Есть у одного совершеннолетнего</option><option value="2" data-i="all">Есть у всех совершеннолетних</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="assetsTitle">2. Движимое имущество</h2>
+      <div class="grid">
+        <div class="field"><label for="cars" data-i="cars">Легковые автомобили в собственности</label><select id="cars"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3 и более</option></select></div>
+        <div class="field"><label for="commercial" data-i="commercial">Коммерческий транспорт</label><select id="commercial"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Есть</option></select></div>
+        <div class="field"><label for="agri" data-i="agri">Виды сельскохозяйственной техники</label><select id="agri"><option value="0" data-i="none">Нет</option><option value="1" data-i="oneType">1 вид</option><option value="2" data-i="twoPlus">2 вида и более</option></select><small data-i="agriHint">Варианты: нет, 1 вид, 2 вида и более.</small></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="workTitle">3. Занятость</h2>
+      <div class="grid">
+        <div class="field"><label for="capable" data-i="capable">Трудоспособные неработающие лица в семье</label><select id="capable"><option value="0" data-i="none">Нет</option><option value="1" data-i="oneOrMore">Есть</option></select></div>
+        <div class="field"><label for="workers" data-i="workers">Количество работающих членов семьи</label><select id="workers"><option value="0" data-i="zero">0</option><option value="1">1</option><option value="2">2 и более</option></select></div>
+        <div class="field"><label for="business" data-i="business">Регистрация предпринимательской деятельности</label><select id="business"><option value="0" data-i="none">Нет</option><option value="1" data-i="ip">ИП</option><option value="2" data-i="too">Учредитель ТОО/АО</option><option value="3" data-i="both">ИП и учредитель ТОО/АО</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="socialTitle">4. Социальная защита</h2>
+      <div class="grid">
+        <div class="field"><label for="children" data-i="children">Несовершеннолетние дети и учащиеся до 23 лет</label><select id="children"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 и более</option></select></div>
+        <div class="field"><label for="adultDis" data-i="adultDis">Совершеннолетний человек с инвалидностью</label><select id="adultDis"><option value="0" data-i="none">Нет</option><option value="1" data-i="group12">I или II группа</option><option value="3" data-i="group3">III группа</option></select></div>
+        <div class="field"><label for="childDis" data-i="childDis">Инвалидность с детства / ребёнок с инвалидностью</label><select id="childDis"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Есть</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="healthTitle">5. Здравоохранение</h2>
+      <div class="grid">
+        <div class="field"><label for="clinic" data-i="clinic">Все члены семьи прикреплены к медорганизации?</label><select id="clinic"><option value="0" data-i="yes">Да</option><option value="1" data-i="no">Есть неприкреплённые</option></select></div>
+        <div class="field"><label for="osms" data-i="osms">Есть участники ОСМС в семье?</label><select id="osms"><option value="0" data-i="yes">Да</option><option value="1" data-i="no">Нет</option></select></div>
+        <div class="field"><label for="chronic" data-i="chronic">Хроническое заболевание с динамическим наблюдением</label><select id="chronic"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Есть</option></select></div>
+        <div class="field"><label for="dispensary" data-i="dispensary">Кто-либо состоит на диспансерном учёте?</label><select id="dispensary"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Да</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="educationTitle">6. Образование</h2>
+      <div class="grid">
+        <div class="field"><label for="preschool" data-i="preschool">Есть дети дошкольного возраста, не прикреплённые к дошкольной организации?</label><select id="preschool"><option value="0" data-i="notApplicable">Нет / нет детей дошкольного возраста</option><option value="1" data-i="yes">Да</option></select></div>
+        <div class="field"><label for="school" data-i="school">Есть дети школьного возраста, не прикреплённые к школе?</label><select id="school"><option value="0" data-i="notApplicable">Нет / нет детей школьного возраста</option><option value="1" data-i="yes">Да</option></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="housingTitle">7. Жильё и инфраструктура</h2>
+      <div class="grid">
+        <div class="field"><label for="homes" data-i="homes">Количество жилых объектов в собственности</label><select id="homes"><option value="0" data-i="none">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7–10</option><option value="11">11</option><option value="12">12 и более</option></select></div>
+        <div class="field"><label for="area" data-i="area">Общая площадь одного жилья (м²), если объект один</label><input id="area" type="number" min="0" step="0.1" value="0"><small data-i="areaHint">Для одного жилья калькулятор сравнит площадь с числом членов семьи.</small></div>
+        <div class="field"><label for="commercialEstate" data-i="commercialEstate">Коммерческая недвижимость</label><select id="commercialEstate"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Есть</option></select></div>
+        <div class="field"><label for="settlement" data-i="settlement">Место регистрации</label><select id="settlement">
+          <option value="capital" data-i="capital">Столица / город республиканского значения</option>
+          <option value="regional" data-i="regional">Город областного значения</option>
+          <option value="district" data-i="district">Район / город районного значения</option>
+          <option value="ruralDistrict" data-i="ruralDistrict">Сельский округ</option>
+          <option value="village" data-i="village">Сельский населённый пункт</option>
+          <option value="none" data-i="noReg">Нет регистрации</option>
+        </select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="farmTitle">8. Сельское хозяйство</h2>
+      <div class="grid">
+        <div class="field"><label for="farmValue" data-i="farmValue">Оценочная стоимость личного подсобного хозяйства (₸)</label><input id="farmValue" type="number" min="0" step="1" value="0"><small data-i="farmHint">Если личного подсобного хозяйства нет, оставьте 0.</small></div>
+        <div class="field"><label for="land" data-i="land">Есть земельный участок?</label><select id="land"><option value="0" data-i="no">Нет</option><option value="1" data-i="yes">Да</option></select></div>
+      </div>
+    </section>
+    <div class="actions"><button class="btn primary" type="submit" data-i="calculate">Рассчитать предварительный результат</button><button class="btn" type="reset" data-i="reset">Очистить</button></div>
+  </form>
+
+  <section id="followGate" class="card hidden" aria-live="polite">
+    <h2 data-i="followTitle">Поддержите проект</h2>
+    <p data-i="followText">Я создала этот независимый информационный калькулятор, чтобы помочь людям лучше разобраться в теме Цифровой карты семьи Казахстана. Подписывайтесь — делюсь полезной информацией о законодательстве и работе с кредиторами.</p>
+    <p><strong>Сагиндикова Махаббат</strong><br><span data-i="authorTitle">Эксперт по работе с кредиторами</span></p>
+    <div class="actions"><a class="btn" href="https://www.instagram.com/zanger.sm/" target="_blank" rel="noopener noreferrer" data-i="instagram">Подписаться в Instagram</a><a class="btn" href="https://www.tiktok.com/@zanger.sm" target="_blank" rel="noopener noreferrer" data-i="tiktok">Подписаться в TikTok</a><button id="showResult" class="btn primary" type="button" data-i="continueResult">Перейти к результату</button></div>
+    <small data-i="followNote">Подписка добровольная. Чтобы увидеть результат, нажмите «Перейти к результату».</small>
+  </section>
+  <section id="result" class="card result" aria-live="polite">
+    <span class="pill" data-i="prelim">Предварительный результат</span>
+    <h2 data-i="scoreTitle">Ваш итоговый балл</h2>
+    <div class="score" id="score"></div>
+    <p id="explain"></p>
+    <div class="card" style="margin:14px 0;padding:14px">
+      <h3 data-i="catScaleTitle">Шкала категорий по методике</h3>
+      <p data-i="catScaleDesc">Сопоставьте итоговый балл с диапазонами ниже. Калькулятор не присваивает категорию автоматически — окончательный выбор вы делаете самостоятельно.</p>
+      <div class="breakdown"><strong data-i="catA">A — благополучный уровень</strong><span data-i="rangeA">от 1 800 баллов</span></div>
+      <div class="breakdown"><strong data-i="catB">B — удовлетворительный уровень</strong><span data-i="rangeB">730–1 799 баллов</span></div>
+      <div class="breakdown"><strong data-i="catC">C — неудовлетворительный уровень</strong><span data-i="rangeC">от −30 до 729 баллов</span></div>
+      <div class="breakdown"><strong data-i="catD">D — кризисный уровень</strong><span data-i="rangeD">от −460 до −29 баллов</span></div>
+      <div class="breakdown"><strong data-i="catE">E — экстренный уровень</strong><span data-i="rangeE">до −459 баллов</span></div>
+      <p class="hint" data-i="categoryBoundaryNote">В тексте методики формулировки диапазонов пересекаются на отдельных граничных значениях (−30 и −459). Поэтому калькулятор показывает шкалу, но не определяет категорию автоматически.</p>
+      <div class="field" style="margin-top:12px"><label for="selfCategory" data-i="selfCategoryLabel">Какую категорию вы выбрали для себя? (необязательно)</label><select id="selfCategory"><option value="" data-i="selfCategoryNone">Не выбирать</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select><small data-i="selfCategoryHint">Ваш выбор не меняет сумму баллов и не является официальным присвоением категории.</small></div>
+    </div>
+    <div class="notice" data-i="resultWarning">Это самостоятельный расчёт по введённым данным. Государственная система использует сведения из государственных информационных систем и может учитывать дополнительные нюансы. Не используйте результат как подтверждение права на пособие.</div>
+    <h3 data-i="breakdownTitle">Баллы по направлениям</h3><div id="breakdown"></div>
+    <p class="footer" data-i="shareTip">Можно сделать скриншот результата и поделиться им. Не публикуйте личные данные.</p>
+  </section>
+  <p class="footer" data-i="footer">Основа: приказ № 267 от 29.06.2023 в редакции изменений 2026 года. Перед публичным запуском нужно юридически проверить спорные формулировки и обновить нормативные величины. Этот прототип не связан с государственными базами данных.</p>
+  <p class="footer">Источник регионального прожиточного минимума: <a href="https://stat.gov.kz/ru/industries/economy/prices/spreadsheets/?name=18621" target="_blank" rel="noopener noreferrer">Бюро национальной статистики — таблицы за III квартал 2026 года</a>.</p>
+  <p class="footer"><strong>Сагиндикова Махаббат</strong> — <span data-i="authorTitle">Эксперт по работе с кредиторами</span> · Instagram/TikTok: <a href="https://www.instagram.com/zanger.sm/" target="_blank" rel="noopener noreferrer">@zanger.sm</a></p>
+</main>
+<script>
+const T={
+ru:{
+title:"Цифровая карта семьи",region:"Регион проживания",regionHint:"Региональные значения за III квартал 2026 года. Черта бедности указана как минимальный порог 70% от ПМ; официальный показатель может быть выше.",followTitle:"Поддержите проект",followText:"Я создала этот независимый информационный калькулятор, чтобы помочь людям лучше разобраться в теме Цифровой карты семьи Казахстана. Подписывайтесь — делюсь полезной информацией о законодательстве и работе с кредиторами.",authorTitle:"Эксперт по работе с кредиторами",instagram:"Подписаться в Instagram",tiktok:"Подписаться в TikTok",continueResult:"Перейти к результату",followNote:"Подписка добровольная. Чтобы увидеть результат, нажмите «Перейти к результату».",subtitle:"Предварительная самооценка социального благополучия семьи в Казахстане",
+warning:"Важно: это независимый информационный калькулятор, а не государственная система. Результат ориентировочный, не подтверждает право на пособия и может отличаться от категории в Цифровой карте семьи. Не вводите ИИН, ФИО, адрес или другие идентифицирующие данные.",
+incomeTitle:"1. Доходы и кредитные обязательства",members:"Число членов семьи",income:"Общий месячный доход семьи (₸)",poverty:"Минимальный порог черты бедности на человека (₸/мес.)",povertyHint:"Автоматически: 70% регионального ПМ. Официальная черта бедности может быть выше с учётом медианного дохода.",pm:"Прожиточный минимум на человека (₸/мес.)",pmHint:"Автоматически подставляется по региону за III квартал 2026 года.",loans:"Есть текущие кредитные обязательства?",arrears:"Просрочка по кредитам более 90 дней и свыше 1 000 ₸",
+assetsTitle:"2. Движимое имущество",cars:"Легковые автомобили в собственности",commercial:"Коммерческий транспорт",agri:"Виды сельскохозяйственной техники",agriHint:"Варианты: нет, 1 вид, 2 вида и более.",
+workTitle:"3. Занятость",capable:"Трудоспособные неработающие лица в семье",workers:"Количество работающих членов семьи",business:"Регистрация предпринимательской деятельности",
+socialTitle:"4. Социальная защита",children:"Несовершеннолетние дети и учащиеся до 23 лет",adultDis:"Совершеннолетний человек с инвалидностью",childDis:"Инвалидность с детства / ребёнок с инвалидностью",
+healthTitle:"5. Здравоохранение",clinic:"Все члены семьи прикреплены к медорганизации?",osms:"Есть участники ОСМС в семье?",chronic:"Хроническое заболевание с динамическим наблюдением",dispensary:"Кто-либо состоит на диспансерном учёте?",
+educationTitle:"6. Образование",preschool:"Есть дети дошкольного возраста, не прикреплённые к дошкольной организации?",school:"Есть дети школьного возраста, не прикреплённые к школе?",
+housingTitle:"7. Жильё и инфраструктура",homes:"Количество жилых объектов в собственности",area:"Общая площадь одного жилья (м²), если объект один",areaHint:"Для одного жилья калькулятор сравнит площадь с числом членов семьи.",commercialEstate:"Коммерческая недвижимость",settlement:"Место регистрации",
+farmTitle:"8. Сельское хозяйство",farmValue:"Оценочная стоимость личного подсобного хозяйства (₸)",farmHint:"Если личного подсобного хозяйства нет, оставьте 0.",land:"Есть земельный участок?",
+no:"Нет",yes:"Да",none:"Нет",one:"Есть у одного совершеннолетнего",all:"Есть у всех совершеннолетних",oneType:"1 вид",twoPlus:"2 вида и более",oneOrMore:"Есть",zero:"0",ip:"ИП",too:"Учредитель ТОО/АО",both:"ИП и учредитель ТОО/АО",group12:"I или II группа",group3:"III группа",notApplicable:"Нет / нет детей дошкольного возраста",capital:"Столица / город республиканского значения",regional:"Город областного значения",district:"Район / город районного значения",ruralDistrict:"Сельский округ",village:"Сельский населённый пункт",noReg:"Нет регистрации",calculate:"Рассчитать предварительный результат",reset:"Очистить",prelim:"Предварительный результат",resultWarning:"Это самостоятельный расчёт по введённым данным. Государственная система использует сведения из государственных информационных систем и может учитывать дополнительные нюансы. Не используйте результат как подтверждение права на пособие.",breakdownTitle:"Баллы по направлениям",shareTip:"Можно сделать скриншот результата и поделиться им. Не публикуйте личные данные.",footer:"Основа: приказ № 267 от 29.06.2023 с изменениями 2026 года. Региональные значения прожиточного минимума взяты из таблицы Бюро национальной статистики за III квартал 2026 года. Калькулятор не подключён к государственным базам данных; результат является самостоятельным информационным расчётом.",
+scoreTitle:"Ваш итоговый балл",catScaleTitle:"Шкала категорий по методике",catScaleDesc:"Сопоставьте итоговый балл с диапазонами ниже. Калькулятор не присваивает категорию автоматически — окончательный выбор вы делаете самостоятельно.",rangeA:"от 1 800 баллов",rangeB:"730–1 799 баллов",rangeC:"от −30 до 729 баллов",rangeD:"от −460 до −29 баллов",rangeE:"до −459 баллов",categoryBoundaryNote:"В тексте методики формулировки диапазонов пересекаются на отдельных граничных значениях (−30 и −459). Поэтому калькулятор показывает шкалу, но не определяет категорию автоматически.",selfCategoryLabel:"Какую категорию вы выбрали для себя? (необязательно)",selfCategoryNone:"Не выбирать",selfCategoryHint:"Ваш выбор не меняет сумму баллов и не является официальным присвоением категории.",perCapita:"Доход на одного члена семьи",catA:"A — благополучный уровень",catB:"B — удовлетворительный уровень",catC:"C — неудовлетворительный уровень",catD:"D — кризисный уровень",catE:"E — экстренный уровень",unclear:"Пограничный/неоднозначный результат",points:"баллов",incomeBand:"Доходы и кредитные обязательства",assetsBand:"Движимое имущество",workBand:"Занятость",socialBand:"Социальная защита",healthBand:"Здравоохранение",educationBand:"Образование",housingBand:"Жильё и инфраструктура",farmBand:"Сельское хозяйство",edge:"Сумма попала в зону, где текст методики допускает неоднозначное толкование порога. Не присваиваем букву автоматически — проверьте актуальное официальное толкование.",zeroIncome:"Доход на человека не превышает введённую черту бедности.",incomeWarn:"Проверьте введённые нормативные величины и ответы. Некоторые критерии методики сформулированы неоднозначно; результат не является официальным.",incomeLabel:"Доход на человека: "
+},
+kz:{
+title:"Отбасының цифрлық картасы",region:"Тұрғылықты өңір",regionHint:"2026 жылғы III тоқсандағы өңірлік көрсеткіштер. Кедейлік шегі бойынша көрсетілген мән — өңірлік ең төмен күнкөріс деңгейінің 70%-ы. Бұл ресми кедейлік шегінің нақты мәні болмауы мүмкін.",followTitle:"Жобаны қолдаңыз",followText:"Мен бұл тәуелсіз ақпараттық калькуляторды Қазақстандағы Отбасының цифрлық картасын түсінуге көмектесу үшін жасадым. Instagram және TikTok-та жазылыңыз — заңнама және кредиторлармен жұмыс туралы пайдалы ақпаратпен бөлісемін.",authorTitle:"Кредиторлармен жұмыс жөніндегі сарапшы",instagram:"Instagram-ға жазылу",tiktok:"TikTok-қа жазылу",continueResult:"Нәтижеге өту",followNote:"Жазылу ерікті. Нәтижені көру үшін «Нәтижеге өту» батырмасын басыңыз.",subtitle:"Қазақстандағы отбасының (адамның) әлеуметтік саламаттылығын алдын ала бағалау",
+warning:"Маңызды: бұл — мемлекеттік жүйе емес, ақпараттық калькулятор. Нәтиже шамамен есептеледі, жәрдемақы алуға құқықты растамайды және Отбасының цифрлық картасындағы санаттан өзгеше болуы мүмкін. ЖСН, аты-жөні, мекенжай сияқты жеке деректерді енгізбеңіз.",
+incomeTitle:"1. Кірістер және кредиттік міндеттемелер",members:"Отбасы мүшелерінің саны",income:"Отбасының жиынтық кірісі (айына, ₸)",poverty:"Бір адамға шаққандағы кедейлік шегі (₸/ай)",povertyHint:"Автоматты түрде өңірлік ең төмен күнкөріс деңгейінің 70%-ы ретінде есептеледі. Бұл ресми кедейлік шегінің нақты мәні болмауы мүмкін.",pm:"Бір адамға шаққандағы ең төмен күнкөріс деңгейі (₸/ай)",pmHint:"2026 жылғы III тоқсанға арналған өңірлік мән автоматты түрде енгізіледі.",loans:"Қолданыстағы кредиттік міндеттемелер бар ма?",arrears:"Кредит бойынша 90 күннен асқан және 1 000 ₸-ден жоғары мерзімі өткен берешек",
+assetsTitle:"2. Жылжымалы мүлік",cars:"Меншіктегі жеңіл автокөліктер",commercial:"Коммерциялық көлік",agri:"Ауыл шаруашылығы техникасының болуы/болмауы",agriHint:"Нұсқалар: жоқ, 1 түрі, 2 түрі және одан көп.",
+workTitle:"3. Адамдарды жұмыспен қамту",capable:"Еңбекке қабілетті жұмыс істемейтін адамдардың болуы",workers:"Жұмыс істейтін адамдардың болуы",business:"Кәсіпкерлік қызметті жүзеге асыратын адамның тіркелуі/тіркелмеуі",
+socialTitle:"4. Әлеуметтік қорғау саласындағы қызметтермен қамтамасыз ету",children:"18 жасқа дейінгі кәмелетке толмаған балалардың және 23 жасқа дейінгі жастар арасындағы оқушылардың болуы/болмауы",adultDis:"18 жастан асқан мүгедектігі бар адамдардың болуы/болмауы",childDis:"Бала кезінен мүгедектігі бар адамның немесе мүгедектігі бар баланың болуы/болмауы",
+healthTitle:"5. Денсаулық сақтау саласындағы қызметтермен қамтамасыз ету",clinic:"Медициналық ұйымға тіркелудің болуы/болмауы",osms:"Отбасында міндетті әлеуметтік медициналық сақтандыруға қатысушылардың болуы/болмауы",chronic:"Динамикалық байқауға жататын созылмалы ауруы бар адамның болуы/болмауы",dispensary:"Диспансерлік есепте тұрған адамның болуы/болмауы",
+educationTitle:"6. Білім беру саласындағы қамтамасыз ету",preschool:"Балалардың болуы/болмауы және олардың мектепке дейінгі ұйымға тіркелуі",school:"Орта білім беру ұйымына тіркелген балалардың болуы/болмауы",
+housingTitle:"7. Тұрғын үй жағдайлары және инфрақұрылым",homes:"Отбасының (адамның) тұрғынжаймен қамтамасыз етілуі",area:"Бір тұрғынжайдың жалпы ауданы (м²)",areaHint:"Бір тұрғын үй үшін калькулятор ауданды отбасы мүшелерінің санына бөледі.",commercialEstate:"Коммерциялық жылжымайтын мүлік",settlement:"Тіркелген елді мекен",
+farmTitle:"8. Ауыл шаруашылығы саласындағы қамтамасыз ету",farmValue:"Жеке қосалқы шаруашылықтың болуы/болмауы және бағалау құны (₸)",farmHint:"Жеке қосалқы шаруашылық болмаса, 0 қалдырыңыз.",land:"Жер учаскесінің болуы/болмауы",
+no:"Жоқ",yes:"Иә",none:"Жоқ",one:"Бір кәмелетке толған адамда бар",all:"Барлық кәмелетке толған адамдарда бар",oneType:"1 түрі",twoPlus:"2 түрі және одан көп",oneOrMore:"Бар",zero:"0",ip:"ЖК",too:"ЖШС/АҚ құрылтайшысы",both:"ЖК және ЖШС/АҚ құрылтайшысы",group12:"I немесе II топ",group3:"III топ",notApplicable:"Жоқ / мектепке дейінгі жастағы бала жоқ",capital:"Астана / республикалық маңызы бар қала",regional:"Облыстық маңызы бар қала",district:"Аудан / аудандық маңызы бар қала",ruralDistrict:"Ауылдық округ",village:"Ауылдық елді мекен",noReg:"Тіркеу жоқ",calculate:"Алдын ала нәтижені есептеу",reset:"Тазарту",prelim:"Алдын ала нәтиже",resultWarning:"Бұл — енгізілген деректер бойынша жасалған дербес есеп. Мемлекеттік жүйе мемлекеттік ақпараттық жүйелердегі мәліметтерді пайдаланады және қосымша ерекшеліктерді ескеруі мүмкін. Нәтижені жәрдемақы алу құқығының дәлелі ретінде қолданбаңыз.",breakdownTitle:"Көрсеткіштер бойынша балдар",shareTip:"Нәтиженің скриншотын жасап бөлісуге болады. Жеке деректерді жарияламаңыз.",footer:"Негізі: Қазақстан Республикасы Премьер-Министрінің орынбасары – Еңбек және халықты әлеуметтік қорғау министрінің 2023 жылғы 29 маусымдағы № 267 бұйрығымен бекітілген «Отбасының (адамның) әлеуметтік саламаттылығын айқындау әдістемесі». Өңірлік ең төмен күнкөріс деңгейінің деректері 2026 жылғы III тоқсан бойынша көрсетілген. Калькулятор мемлекеттік дерекқорларға қосылмаған; нәтиже ақпараттық есеп болып табылады.",
+scoreTitle:"Отбасының (адамның) әлеуметтік саламаттылығының деңгейі (балл)",catScaleTitle:"Отбасының әлеуметтік саламаттылығының деңгейлері (санаттары)",catScaleDesc:"Жалпы баллды төмендегі аралықтармен салыстырыңыз. Калькулятор санатты автоматты түрде бермейді. Жалпы баллды Әдістеменің 13-тармағындағы санаттармен салыстырыңыз.",rangeA:"1 800 баллдан бастап",rangeB:"730–1 799 балл",rangeC:"−30-дан 729 баллға дейін",rangeD:"−460-тан −29 баллға дейін",rangeE:"−459 баллға дейін",categoryBoundaryNote:"Әдістемедегі санат диапазондары кейбір шекаралық мәндерде (−30 және −459) қабаттасады. Сондықтан калькулятор шкаланы көрсетеді, бірақ санатты автоматты түрде анықтамайды.",selfCategoryLabel:"Өзіңізге қай санатты таңдадыңыз? (міндетті емес)",selfCategoryNone:"Таңдамау",selfCategoryHint:"Таңдауыңыз балл сомасын өзгертпейді және санатты ресми түрде беру болып саналмайды.",perCapita:"Отбасының бір мүшесіне шаққандағы кіріс",catA:"A — жақсы деңгей",catB:"B — қанағаттанарлық деңгей",catC:"C — төмен деңгей",catD:"D — дағдарыс деңгейі",catE:"E — мүшкіл деңгей",unclear:"Шекаралық/екіұшты нәтиже",points:"балл",incomeBand:"Кірістер және кредиттік міндеттемелер",assetsBand:"Жылжымалы мүлік",workBand:"Адамдарды жұмыспен қамту",socialBand:"Әлеуметтік қорғау саласындағы қызметтермен қамтамасыз ету",healthBand:"Денсаулық сақтау саласындағы қызметтермен қамтамасыз ету",educationBand:"Білім беру саласындағы қамтамасыз ету",housingBand:"Тұрғын үй жағдайлары және инфрақұрылым",farmBand:"Ауыл шаруашылығы саласындағы қамтамасыз ету",edge:"Жиынтық балл әдістемедегі шекті мәндер екіұшты түсіндірілуі мүмкін аймаққа түсті. Әріпті автоматты түрде бермейміз — ресми түсіндірмені тексеріңіз.",zeroIncome:"Бір адамға шаққандағы кіріс енгізілген кедейлік шегінен аспайды.",incomeWarn:"Енгізілген нормативтік мәндер мен жауаптарды тексеріңіз. Әдістеменің кейбір өлшемдері екіұшты тұжырымдалған; нәтиже ресми емес.",incomeLabel:"Бір адамға шаққандағы кіріс: "
+}};
+const REGION_PM={almaty:80928,astana:75486,shymkent:70675,abai:73473,akmola:69183,aktobe:67629,almaty_region:74341,atyrau:66689,east_kazakhstan:76283,west_kazakhstan:63796,zhambyl:71026,zhetysu:69009,karaganda:69656,kostanay:71626,kyzylorda:68223,mangystau:78678,pavlodar:68968,north_kazakhstan:70809,turkistan:66886,ulytau:71614};
+function updateRegionValues(){const pm=REGION_PM[document.getElementById('region').value];document.getElementById('pm').value=pm;document.getElementById('poverty').value=Math.round(pm*0.7);}
+let lang='ru';
+function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(el=>{const k=el.dataset.i;if(T[l][k])el.textContent=T[l][k]});document.getElementById('ru').classList.toggle('active',l==='ru');document.getElementById('kz').classList.toggle('active',l==='kz');}
+document.getElementById('ru').onclick=()=>setLang('ru');document.getElementById('kz').onclick=()=>setLang('kz');
+const val=id=>Number(document.getElementById(id).value||0);
+function calc(e){e.preventDefault();const members=Math.max(1,val('members')), per=val('income')/members, poverty=val('poverty'), pm=val('pm');
+if(!poverty||!pm){alert(lang==='ru'?'Введите актуальные черту бедности и прожиточный минимум.':'Кедейлік шегі мен ең төмен күнкөріс деңгейінің қолданыстағы мәндерін енгізіңіз.');return;}
+let b={}, edge=false;
+b.income=(per===0?0:per<poverty?40:per===poverty?40:per<pm?100:per<2*pm?170:per<3*pm?280:per<4*pm?400:620)+(val('loans')? -50:0)+(val('arrears')===1?-250:val('arrears')===2?-500:0);
+if(per===poverty||per===pm||per===2*pm||per===3*pm||per===4*pm){edge=true;}
+b.assets=([-50,0,50,100][Math.min(3,val('cars'))])+(val('commercial')?80:0)+(val('agri')===1?100:val('agri')>=2?200:0);
+b.work=(val('capable')?0:-100)+(val('workers')===1?150:val('workers')===2?300:0)+([0,50,100,150][val('business')]);
+b.social=([-0,-50,-100,-150,-200][Math.min(4,val('children'))])+(val('adultDis')===1?-250:val('adultDis')===3?-100:0)+(val('childDis')?-150:0);
+b.health=(val('clinic')?-20:0)+(val('osms')?-20:0)+(val('chronic')?-80:0)+(val('dispensary')?-50:0);
+b.education=(val('preschool')?-50:0)+(val('school')?-100:0);
+const homes=val('homes');let housing=homes===0?-200:homes===1?(val('area')/members<18?-80:0):homes===2?100:homes===3?100:homes>=4&&homes<=5?400:homes>=6&&homes<=10?1000:homes>=11?2000:0;
+if([3,6,11].includes(homes)){edge=true;}
+housing+=val('commercialEstate')?100:0;housing+=({capital:70,regional:0,district:-30,ruralDistrict:-50,village:-70,none:-100})[document.getElementById('settlement').value];b.housing=housing;
+const fv=val('farmValue');b.farm=(fv===0?0:fv<500000?50:fv<1000000?150:fv<=2000000?350:600)+(val('land')?150:0);
+const total=Object.values(b).reduce((a,c)=>a+c,0);
+document.getElementById('score').textContent=total.toLocaleString(lang==='ru'?'ru-RU':'kk-KZ')+' '+T[lang].points;
+document.getElementById('explain').textContent=T[lang].incomeLabel+Math.round(per).toLocaleString(lang==='ru'?'ru-RU':'kk-KZ')+' ₸. '+(edge?T[lang].edge:T[lang].incomeWarn);
+document.getElementById('selfCategory').value='';
+const labels={income:'incomeBand',assets:'assetsBand',work:'workBand',social:'socialBand',health:'healthBand',education:'educationBand',housing:'housingBand',farm:'farmBand'};
+const div=document.getElementById('breakdown');div.innerHTML='';
+Object.entries(b).forEach(([k,v])=>{const row=document.createElement('div');row.className='breakdown';const a=document.createElement('span'),z=document.createElement('strong');a.textContent=T[lang][labels[k]];z.textContent=(v>0?'+':'')+v;row.append(a,z);div.append(row)});
+const r=document.getElementById('result');r.style.display='none';const gate=document.getElementById('followGate');gate.classList.remove('hidden');gate.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('calc').addEventListener('submit',calc);
+document.getElementById('calc').addEventListener('reset',()=>{document.getElementById('result').style.display='none';document.getElementById('followGate').classList.add('hidden');setTimeout(()=>{setLang(lang);updateRegionValues()},0)});
+document.getElementById('region').addEventListener('change',updateRegionValues);
+document.getElementById('showResult').addEventListener('click',()=>{document.getElementById('followGate').classList.add('hidden');const r=document.getElementById('result');r.style.display='block';r.scrollIntoView({behavior:'smooth',block:'start'});});
+updateRegionValues();setLang('ru');
+</script>
+</body>
+</html>
